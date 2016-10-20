@@ -1,0 +1,27 @@
+#search_f{
+    margin-bottom: 10px;
+}
+
+#manager_name4{
+    position: relative;
+    margin-left: 10px;
+}
+
+#project_status{
+    position: absolute;
+    left: 30px;
+    top: 20px;
+
+}
+.alert{
+    color: #0095ff;
+}
+
+
+.pagination>li.active>a, .pagination>li.active>a:hover {
+    background-color: #2dc3e8;
+    border-color: #2dc3e8;
+    color: #fff;
+    -webkit-text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+}

@@ -1,0 +1,12 @@
+.setbounds{
+    margin-top: 10px;
+}
+#show_error{
+    display: none;
+}
+#show_waring{
+    display: none;
+}
+#show_success{
+    display: none;
+}

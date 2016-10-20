@@ -1,0 +1,194 @@
+<extend name="Base:base"/>
+
+<!--页面标题-->
+<block name="title">神舟数码::周报</block>
+<block name="link">
+    <link href="__PUBLIC__/assets/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="__PUBLIC__/Home/Data/css/data.css" rel="stylesheet" />
+</block>
+<!--面包屑导航-->
+<block name="breadcrumb">
+    <li class="active">{$type}设置</li>
+</block>
+
+<!--页面内容-->
+<block name="page-body">
+    <!--<div id="modal-success" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="glyphicon glyphicon-check"></i>
+                </div>
+                <div class="modal-body success_modal">You have done great!</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-warning" class="modal modal-message modal-warning fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="fa fa-warning"></i>
+                </div>
+                <div class="modal-body warning_modal">Operation failed, please re - operation</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div id="bootbox-modal-confirm" class="bootbox modal fade bootbox-confirm in" role="dialog" tabindex="-1"
+         style="display: none;" aria-hidden="false" >
+        <div class="modal-dialog" style="width: 230px;">
+            <div class="modal-content" >
+                <div style="background-color: #16c5b2;padding: 10px;color: white;font-size: 15px;">
+                    确认信息
+                </div>
+                <div class="modal-body">
+
+                    <button class="bootbox-close-button close" aria-hidden="true" data-dismiss="modal" type="button"
+                            style="margin-top: -50px;">×
+                    </button>
+                    <div class="bootbox-body">确定要删除这条记录吗？</div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" data-bb-handler="cancel" id="cancle">取消</button>
+                    <button class="btn btn-primary" type="button" data-bb-handler="confirm" id="ok_btnn">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="type_id" style="height: 1000px;" type_id="{$type_id}">
+        <!--index-->
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="widget">
+                    <div class="widget-header">
+                        <span class="widget-caption">{$type}信息</span>
+                        <div class="widget-buttons">
+                            <a href="#" >
+
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div id="simpledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                            <div class="btn-group">
+                                <a class="btn btn-default" id="add_button">
+                                    <i class="fa fa-plus"></i>新增
+                                </a>
+                                <a class="btn btn-default" id="ecport_button" href="{:U('Data/get_date_style')}">
+                                    <i class="fa fa-download"></i>导出
+                                </a>
+                            </div>
+                            <div class="dataTables_filter">
+                                <label>
+                                    <input id="search" type="search" class="form-control input-sm" aria-controls="simpledatatable" placeholder="请输入名称">
+                                </label>
+                            </div>
+                            <div class="dataTables_length" id="simpledatatable_length">
+                                <select class="form-control input-sm" name="type_data">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <table class="table table-striped table-bordered table-hover dataTable no-footer" id="simpledatatable">
+                                <thead>
+                                <tr role="row">
+                                    <th id = "name_order" order = "0" class="sorting" rowspan="1" colspan="1">名称</th>
+                                    <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1"></th>
+                                    <th class="sorting_disabled" tabindex="0" rowspan="1" colspan="1"></th>
+                                </tr>
+                                </thead>
+                                <tbody id = "data_table" _type = "{$_type}">
+                                <volist name="basedata" id="data">
+                                    <tr role="row" id="{$data.id}" class="" order="{$data.order_num}">
+                                        <td>
+                                            {$data.name}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-xs edit click_edit">
+                                                <i class="fa fa-edit"></i> 编辑
+                                            </a>
+                                            <a class="click_delete btn btn-danger btn-xs delete">
+                                                <i class="fa fa-trash-o"></i> 删除
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-default btn-xs up_btn">
+                                                <i class="fa fa-angle-double-up"></i> 上移
+                                            </a>
+                                            <a class="btn btn-default btn-xs down_btn">
+                                                <i class="fa fa-angle-double-down"></i> 下移
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                            <div class="row DTTTFooter">
+                                <div id = "table_intro" class="col-sm-6">
+                                    <div class="dataTables_info">
+                                        <if condition="$all_count lt 10 ">
+                                            从 1 到 {$all_count} 条记录，总记录数为 {$all_count} 条
+                                        <else />
+                                            从 1 到 10 条记录，总记录数为 {$all_count} 条
+                                        </if>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="dataTables_paginate paging_bootstrap" id="simpledatatable_paginate">
+                                        <ul class="pagination"  _href = "<?php echo U('Data/getData');?>">
+                                            <li class = "prev disabled"><a>上一页</a></li>
+                                            <?php  for ($i = 1; $i <= $all_page; $i++) {  ?>
+                                            <li><a href="#"  page = "<?php echo $i; ?>" class = "page"><?php echo $i; ?></a></li>
+                                            <?php  } ?>
+                                            <li class = "next <?php if (1 == $all_page) echo 'disabled'; ?>" ><a href="#" class = "page" >下一页</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<button id = "success_alert" class="btn btn-success" data-toggle="modal" data-target="#modal-success"  style="display: none;">Success</button>
+    <button id = "warning_alert" class="btn btn-warning" data-toggle="modal" data-target="#modal-warning" style="display: none;">Warning</button>-->
+    <button class="" data-toggle="modal" data-target="#bootbox-modal-confirm" id="info_delete"
+            style="display: none">Success
+    </button>
+    <input type="hidden" value="__URL__" id="url">
+    <script id = "data_table_temp" type = "text/jquery_template" >
+        <tr id = "{{= id }}" order="{{= order_num }}" role="row">
+            <td>{{= name}}</td>
+            <td>
+                <a href="#" class="btn btn-info btn-xs edit click_edit">
+                    <i class="fa fa-edit"></i> 编辑
+                </a>
+                <a href="#" class="click_delete btn btn-danger btn-xs delete">
+                    <i class="fa fa-trash-o"></i> 删除
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-default btn-xs up_btn">
+                    <i class="fa fa-angle-double-up"></i> 上移
+                </a>
+                <a class="btn btn-default btn-xs down_btn">
+                    <i class="fa fa-angle-double-down"></i> 下移
+                </a>
+            </td>
+        </tr>
+    </script>
+</block>
+
+<block name="script">
+    <script src="__PUBLIC__/assets/js/skins.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/Data/js/jquery.tmpl.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/Data/js/data.js"></script>
+</block>

@@ -1,0 +1,565 @@
+<extend name="Base:base"/>
+<!--页面标题-->
+<block name="title">神舟数码::周报</block>
+<!--自定义的Style或JS-->
+<block name="link">
+    <link href="__PUBLIC__/assets/css/dataTables.bootstrap.css" rel="stylesheet"/>
+    <link href="__PUBLIC__/Home/Index/css/index.css">
+    <link href="__PUBLIC__/assets/css/dataTables.bootstrap.css" rel="stylesheet"/>
+    <link href="__PUBLIC__/Home/Products/css/prod.css">
+</block>
+
+<!--面包屑导航-->
+<block name="breadcrumb">
+    <li class="active">项目</li>
+</block>
+
+<!--页面内容-->
+<block name="page-body">
+<div class="row">
+<div class="col-xs-12 col-md-12">
+<div class="widget">
+    <div class="widget-header ">
+        <span class="widget-caption">列表</span>
+
+        <div class="widget-buttons">
+            <a data-toggle="maximize" href="#">
+                <i class="fa fa-expand"></i>
+            </a>
+        </div>
+    </div>
+
+    <div>
+        <div class="col-xs-12 col-md-12">
+            <input type="hidden" url="{:U('Products/update_project_status')}" id="update_status">
+            <input type="hidden" url="{:U('Products/update_power')}" id="update_power">
+            <input type="hidden" url="{:U('Products/update_project_rate')}" id="update_rate">
+            <input type="hidden" url="{:U('Products/look_history')}" id="history_detail">
+            <input type="hidden" url="{:U('Products/add_newproject')}" id="newproject_id">
+            <input type="hidden" url="{:U('Products/delete_projects')}" id="delete_project">
+            <input type="hidden" url="{:U('Products/show_edit')}" id="edit_project">
+            <input type="hidden" url="{:U('Products/profile')}" id="page_url">
+            <input type="hidden" url="{:U('Products/serach')}" id="search_url">
+            <input type="hidden" url="{:U('products/edit')}" id="edit_project1">
+            <input type="hidden" url="{:U('products/add_to_history')}" id="add_to_history">
+            <input type="hidden" value="{:U('products/todo')}" id="todo"/>
+        </div>
+        <div class="widget-body">
+            <div class="table-toolbar">
+                <div class="panel-group accordion" id="accordion" style="margin-bottom: 8px;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading ">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse"
+                                   data-parent="#accordion"
+                                   href="#collapseOne">
+                                    <i class="fa fa-search"></i> 高级搜索
+                                </a>
+                            </h4>
+                        </div>
+
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-na">项目名称</span>
+                                                <input style="width: 186px;" type="text"
+                                                       aria-describedby="basic-na"
+                                                       id="search_project_name" placeholder="请输入项目名称">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-bg">预算范围(万)</span>
+                                                <input style="width: 85px;" type="number" id="budge_small_number"
+                                                       aria-describedby="basic-bg"> -
+                                                <input style="width: 81px;" type="number" id="budge_big_number"
+                                                       aria-describedby="basic-bg">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-zhangtai">项目状态</span>
+                                                <select style="width: 200px;" id="get_object_status"
+                                                        aria-describedby="basic-zhangtai">
+                                                    <option value="0">全部</option>
+                                                    <foreach name="_list" item="vo">
+                                                        <if condition="$vo.type eq 4">
+                                                            <option value="{$vo.Id}">{$vo.name}</option>
+                                                        </if>
+                                                    </foreach>
+                                                </select>
+
+                                                <div class="input-group-btn">
+                                                    <span class="caret"></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="height: 2px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-bawu">把握度</span>
+                                                <select style="width: 200px;" id="grasp_degree"
+                                                        aria-describedby="basic-bawu">
+                                                    <option value="0">全部</option>
+                                                    <foreach name="_list" item="vo">
+                                                        <if condition="$vo.type eq 5">
+                                                            <option value="{$vo.Id}">{$vo.name}</option>
+                                                        </if>
+                                                    </foreach>
+                                                </select>
+
+                                                <div class="input-group-btn">
+                                                    <span class="caret"></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-jinzhan">当前进展</span>
+                                                <select style="width: 200px;" name="current_progress1"
+                                                        id="get_current_progress">
+                                                    <option value="0">全部</option>
+                                                    <foreach name="_list" item="vo">
+                                                        <if condition="$vo.type eq 6">
+                                                            <option value="{$vo.Id}">{$vo.name}</option>
+                                                        </if>
+                                                    </foreach>
+                                                </select>
+
+                                                <div class="input-group-btn">
+                                                    <span class="caret"></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <button type="submit" class="btn btn-primary"
+                                                        onclick="javascript:GetData();"
+                                                        style="padding: 7px;">
+                                                    <i class="fa fa-search"></i>搜索
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="simpledatatable_wrapper" class="dataTables_wrapper form-inline no-footer" role="grid">
+                <!--操作按钮组-->
+                <div class="btn-group" style="float: left;z-index: 9">
+                    <a class="btn btn-default " href="{:U('Products/add_programme')}">
+                        <i class="fa fa-plus"></i>新增
+                    </a>
+
+                    <a class="btn btn-default " href="{:U('Products/get_date_style')}">
+                        <i class="fa fa-download"></i>导出
+                    </a>
+                </div>
+            </div>
+            <table class="table table-striped table-hover table-bordered" id="simpledatatable">
+                <thead>
+                <tr role="row">
+                    <th>
+                        项目名称
+                    </th>
+                    <th>
+                        预算(万)
+                    </th>
+                    <th>
+                        项目状态
+                    </th>
+                    <th>
+                        把握度
+                    </th>
+                    <th>
+                        当前进展
+                    </th>
+                    <th>
+                        了解项目
+                    </th>
+                    <th>
+                        落单
+                    </th>
+                    <th>
+                        得到承诺
+                    </th>
+                    <th>
+                        换单
+                    </th>
+                    <th>
+                        加急
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+            <input type="hidden" value="{:U('Products/GetData')}" id="url"/>
+
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<!--显示历史模态框-->
+<div id="show_history" style="display:none;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--显示编辑界面模态框-->
+<div id=edit_content" style="display:none;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--编辑界面的内容可编辑-->
+<button class="btn btn-default" data-toggle="modal" data-target=".bs1-example-modal-lg" style="display: none"
+        id="edit_show_content">edit
+</button>
+<div class="modal fade bs1-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" style="display: none;">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title" id="myLargeModalLabel1">项目修改</h4>
+</div>
+<div class="modal-body">
+<div id="registration-form">
+    <form method="post" id="form" action="#">
+        <input type="hidden" id="project_id">
+
+        <div class="form-title">
+            项目修改
+        </div>
+        <div class="row">
+
+            <div class="col-sm-4" style="margin-top: 10px;">
+                <div class="form-group">
+                    <label class="setbounds">项目名称 <a href="#" style="color: red">(*)</a> </label>
+                    <span class="input-icon icon-right">
+                        <input type="text" class="form-control" id="project_name"
+                               placeholder="请输入项目名称">
+                        <i class="glyphicon glyphicon-gift"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-sm-4" style="margin-top: 10px">
+                <div class="form-group">
+                    <label class="setbounds">预算(万)<a href="#" style="color: red">(*)</a></label>
+                    <input type="number" class=" form-control" maxlength="11" id="object_budget">
+                </div>
+            </div>
+            <div class="col-sm-4" style="margin-top: 10px">
+            <span class="input-icon icon-right">
+                <label class="setbounds">是否加急</label>
+                <!--获取用户的所有信息-->
+                <select class="form-control" id="urgent">
+                    <option value="0">不加急</option>
+                    <option value="1">加急</option>
+                </select>
+            </span>
+            </div>
+
+
+            <div class="col-sm-4" style="margin-left: 1px">
+            <span class="input-icon icon-right">
+                <label class="setbounds">行业</label>
+                <!--获取区域的所有信息-->
+                <select class="form-control" id="object_hangye">
+                    <foreach name="_list" item="vo">
+                        <if condition="$vo.type eq 2">
+                            <option value="{$vo.Id}">{$vo.name}</option>
+                        </if>
+                    </foreach>
+                </select>
+                <!--<i class="glyphicon glyphicon-user circular"></i>-->
+            </span>
+            </div>
+
+            <div class="col-sm-4">
+            <span class="input-icon icon-right">
+                <label class="setbounds">区域</label>
+                <!--获取区域的所有信息-->
+                <select class="form-control" id="object_aera">
+                    <foreach name="_list" item="vo">
+                        <if condition="$vo.type eq 1">
+                            <option value="{$vo.Id}">{$vo.name}</option>
+                        </if>
+                    </foreach>
+                </select>
+            </span>
+            </div>
+
+            <div class="col-sm-4" style="margin-left: -1px">
+            <span class="input-icon icon-right">
+                <label class="setbounds">销售人员</label>
+                <!--获取用户的所有信息-->
+                <select class="form-control" id="object_sealman">
+                    <foreach name="user_data" item="vo">
+                        <if condition="$vo.job eq 3">
+                            <option value="{$vo.Id}">{$vo.name}</option>
+                        </if>
+                    </foreach>
+                </select>
+            </span>
+            </div>
+            <div class="col-sm-4" style="margin-top: 10px;">
+            <span class="input-icon icon-right" style="margin-bottom: 10px">
+                <label class="setbounds">项目清单</label>
+                <!--获取区域的所有信息-->
+                <select class="form-control" id="object_list">
+                    <foreach name="_list" item="vo">
+                        <if condition="$vo.type eq 3">
+                            <option value="{$vo.Id}">{$vo.name}</option>
+                        </if>
+                    </foreach>
+                </select>
+            </span>
+            </div>
+            <div class="col-sm-4" style="margin-top: 10px;">
+            <span class="input-icon icon-right" style="margin-bottom: 10px">
+                <label class="setbounds">项目状态</label>
+                <!--获取项目状态的所有信息-->
+                <select class="form-control" id="object_status">
+                    <foreach name="_list" item="vo">
+                        <if condition="$vo.type eq 4">
+                            <option value="{$vo.Id}">{$vo.name}</option>
+                        </if>
+                    </foreach>
+                </select>
+            </span>
+            </div>
+            <div class="col-sm-4" style="margin-top: 10px;">
+            <span class="input-icon icon-right" style="margin-bottom: 10px">
+                <label class="setbounds">把握度</label>
+                <!--获取把握度的所有信息-->
+                <select class="form-control" id="grasp_degree1">
+                    <foreach name="_list" item="vo">
+                        <if condition="$vo.type eq 5">
+                            <option value="{$vo.Id}">{$vo.name}</option>
+                        </if>
+                    </foreach>
+                </select>
+            </span>
+            </div>
+            <div class="col-sm-4">
+        <span class="input-icon icon-right" style="margin-bottom: 10px;">
+            <label class="setbounds">当前进展</label>
+            <!--获取当前进展的所有信息-->
+            <select class="form-control" id="current_progress">
+                <foreach name="_list" item="vo">
+                    <if condition="$vo.type eq 6">
+                        <option value="{$vo.Id}">{$vo.name}</option>
+                    </if>
+                </foreach>
+            </select>
+        </span>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="setbounds">渠道信息</label>
+                <span class="input-icon icon-right">
+                    <input type="text" class="form-control" id="project_channel"
+                           placeholder="请输入渠道信息">
+                    <i class="glyphicon glyphicon-random"></i>
+                </span>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="setbounds">投标时间</label>
+                    <span class="input-icon icon-right">
+                         <input class="form-control date-picker" id="id-date-picker-1"
+                                type="text" name="get_time" data-date-format="yyyy-mm-dd">
+                          <i class="fa fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="setbounds">中标渠道</label>
+                <span class="input-icon icon-right">
+                    <input type="text" class="form-control" id="winning_channel"
+                           placeholder="请输入中标渠道">
+                    <i class="fa fa-globe"></i>
+                </span>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="setbounds">厂商负责人</label>
+                <span class="input-icon icon-right">
+                    <input type="text" class="form-control" id="account_manager"
+                           placeholder="请输入厂商负责（客户经理）">
+                    <i class="glyphicon glyphicon-user"></i>
+                </span>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="setbounds">备注</label>
+                <span class="input-icon icon-right">
+                    <input type="text" class="form-control" id="demo"
+                           placeholder="请输入项目备注信息">
+                    <i class="glyphicon glyphicon-user"></i>
+                </span>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit">保存</button>
+        <a class="btn btn-warning" id="requ">取消</a>
+
+        <div class="alert alert-warning" style="display: none;margin-top: 10px;">
+            <button class="close" data-dismiss="alert">
+                ×
+            </button>
+            <i class="fa-fw fa fa-warning"></i>
+            <span></span>
+        </div>
+    </form>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<button class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg" style="display: none"
+        id="history">history
+</button>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">历史记录</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                    <tr role="row">
+                        <th style="width: 90px">项目名</th>
+                        <th style="width: 60px">操作人</th>
+                        <th style="width: 80px">更新时间</th>
+                        <th style="width: 500px">说明信息</th>
+                    </tr>
+                    </thead>
+                    <tbody id="data_ualue">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script id="data_history_temp" type="text/jquery_template">
+    <tr>
+        <td>{{= project_id }}</td>
+        <td>{{= user_id }}</td>
+        <td>{{= update_time }}</td>
+        <td>{{= content}}</td>
+        <!--<td>{{= $item.type($data.type_id)}}</td>-->
+    </tr>
+</script>
+</block>
+<block name="script">
+    <script type="text/javascript" src="__PUBLIC__/Home/Index/staick/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/Index/staick/jquery-1.11.3.min.js"></script>
+    <script src="__PUBLIC__/assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="__PUBLIC__/assets/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/Data/js/jquery.tmpl.js"></script>
+    <!--Bootstrap Date Picker-->
+    <script src="__PUBLIC__/assets/js/datetime/bootstrap-datepicker.js"></script>
+
+    <!--Bootstrap Time Picker-->
+    <script src="__PUBLIC__/assets/js/datetime/bootstrap-timepicker.js"></script>
+
+    <!--Bootstrap Date Range Picker-->
+    <script src="__PUBLIC__/assets/js/datetime/moment.js"></script>
+    <script src="__PUBLIC__/assets/js/datetime/daterangepicker.js"></script>
+    <!--Fuelux Spinner-->
+    <script src="__PUBLIC__/assets/js/fuelux/spinner/fuelux.spinner.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/Products/js/submit_edit.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/Products/js/page.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Home/Products/js/index.js"></script>
+    <script type="text/javascript">
+
+        $("#delete_refush").click(function () {
+            $("#modal-delete-success").css({display: "none"});
+        });
+
+        $("#edit").click(function () {
+            $("#modal-success").css({display: "none"});
+            GetData();
+        });
+
+        /* function start_refush() {
+         $(".bootbox-close-button").click();
+         }*/
+
+        $("#requ").click(function () {
+            $(".close").click();
+        });
+
+        $("#requone").click(function () {
+            $(".close").click();
+
+        });
+
+        //--Bootstrap Date Picker--
+        $('.date-picker').datepicker();
+
+        //--Bootstrap Time Picker--
+        $('#timepicker1').timepicker();
+
+        //--Bootstrap Date Range Picker--
+        $('#reservation').daterangepicker();
+
+    </script>
+</block>
+

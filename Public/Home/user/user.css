@@ -1,0 +1,52 @@
+#simpledatatable_length{
+    width: 65px;
+    float: right;
+}
+#simpledatatable_filter{
+    float: right;
+    /*margin-right: 70px;*/
+}
+.row{
+    margin-right: 0;
+    margin-left: 0;
+}
+#iphone,#email,#uname,#account,#addname,#addiphone,#addemail,#addaccount{
+    width: 280px;
+    margin-left:85px;
+}
+.select_style{
+    width: 280px;
+    margin-left: 17px;
+}
+.col-sm-6{
+    width: 50%;
+}
+#simpledatable_info{
+    padding-top: 5px;
+    float: left !important;
+}
+#modal-warning, #modal-success{
+    z-index: 2000;
+}
+.form-control-feedback{
+    right: 185px;
+    color: red;
+    display: none;
+}
+.appear{
+    display: block !important;
+}
+.warning-info, .ed-waring-info{
+    width: 160px;
+    height: 25px;
+    float: right;
+    color: red;
+    margin-top: 5px;
+    margin-right: 5px;
+    padding-top: 3px;
+    display: none;
+}
+.pagination>.active>span{
+    background: #03B3B2;
+    border-color: #03B3B2;
+}

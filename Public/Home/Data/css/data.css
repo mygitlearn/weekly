@@ -1,0 +1,12 @@
+.btn-group{
+    float: left;
+}
+.dataTables_filter, #simpledatatable_paginate{
+    float: right;
+}
+#search{
+    float: right;
+}
+.sorting_disabled, #name_order{
+    width: 200px;
+}

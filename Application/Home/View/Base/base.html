@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>
+        <block name="title">神舟数码::周报</block>
+    </title>
+    <meta name="description" content="Dashboard"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" href="__PUBLIC__/assets/img/favicon.png" type="image/x-icon">
+
+
+    <!--Basic Styles-->
+    <link href="//cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--Fonts-->
+    <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300"
+          rel="stylesheet" type="text/css">
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="__PUBLIC__/assets/css/beyond.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__PUBLIC__/assets/css/typicons.min.css" rel="stylesheet"/>
+    <link href="__PUBLIC__/assets/css/animate.min.css" rel="stylesheet"/>
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="__PUBLIC__/assets/js/skins.min.js"></script>
+    <link href="__PUBLIC__/assets/css/skins/teal.min.css" rel="stylesheet">
+    <block name="link"></block>
+    <style>
+        div.dataTables_filter label {
+            float: right;
+            margin-right: 70px;
+        }
+
+        .modal-header {
+            border-bottom: 3px solid #03b3b2;
+        }
+
+        input[type=checkbox]:checked + .text:before {
+            border: 0px;
+            background: transparent;
+        }
+
+        input[type=checkbox] + .text:before {
+            border: 0px;
+            color: #03b3b2;
+            background: transparent;
+        }
+
+        .table-toolbar .dropdown label {
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 0px;
+        }
+
+        .panel-body label {
+            padding: 7px;
+            border: 1px solid #d5d5d5;
+            border-right: 0px;
+            margin-top: 1px;
+            color: #858585;
+            background-color: #f5f5f5;
+        }
+
+        .panel-body input {
+            padding: 7px;
+            border: 1px solid #d5d5d5;
+            color: #858585;
+            background-color: #fbfbfb;
+        }
+
+        .dataTables_empty {
+            text-align: center;
+        }
+
+        .panel-body .input-group {
+            margin-right: 10px;
+        }
+
+        .panel-body select {
+            -webkit-appearance: none;
+            border-radius: 0px;
+
+        }
+
+        .panel-body .input-group-btn {
+            left: -18px;
+            z-index: 10;
+        }
+
+        .input-icon.icon-right > input {
+            padding-left: 14px;
+        }
+
+        .panel-body .col-lg-2 {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .dropdown-menu {
+            z-index: 999999;
+        }
+
+        .bootbox-confirm .modal-dialog {
+            width: 250px;
+        }
+
+        .animated {
+            -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+    </style>
+</head>
+<body>
+<include file="Base:loading"/>
+<include file="Base:header"/>
+
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Page Sidebar -->
+        <div class="page-sidebar sidebar-fixed" id="sidebar">
+            <!-- Sidebar Menu -->
+            <ul class="nav sidebar-menu">
+                <!--Dashboard-->
+                <li>
+                    <a href="#" style="cursor: default">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                                    <span class="menu-text">
+                                        项目总计：{$project_count}（个）
+                                    </span>
+                        <input type="hidden" url="__URL__/" id="jump">
+                    </a>
+                </li>
+                <volist name="menus" id="vo">
+                    <if condition="count($vo['child']) eq 0 ">
+                        <if condition="$vo.active eq 1 ">
+                            <li class="active">
+                                <else/>
+                            <li>
+                        </if>
+
+                        <a data="{$vo.Id}" class="has" href="__ROOT__/{$vo.path}/{$vo.action}">
+                            <i class="menu-icon fa {$vo.icon}"></i>
+                            <span class="menu-text"> {$vo.name} </span>
+                        </a></li>
+                        <else/>
+                        <li class="open">
+                            <a href="#" class="menu-dropdown">
+                                <i class="menu-icon fa {$vo.icon}"></i>
+                                    <span class="menu-text">
+                                        {$vo.name}
+                                    </span>
+                                <i class="menu-expand"></i>
+                            </a>
+                            <ul class="submenu">
+                                <volist name="vo['child']" id="item">
+
+                                    <if condition="$item.active eq 1 ">
+                                        <li class="active">
+                                            <a data="{$item.action}" class="has"
+                                               href="__ROOT__/{$item.path}/{$item.action}">
+                                                <span class="menu-text">{$item.name}</span>
+                                            </a>
+                                        </li>
+                                        <else/>
+                                        <li>
+                                            <a data="{$item.action}" class="has"
+                                               href="__ROOT__/{$item.path}/{$item.action}">
+                                                <span class="menu-text">{$item.name}</span>
+                                            </a>
+                                        </li>
+                                    </if>
+
+                                </volist>
+                            </ul>
+                        </li>
+                    </if>
+                </volist>
+            </ul>
+            <!-- /Sidebar Menu -->
+        </div>
+        <!-- /Page Sidebar -->
+        <!-- Page Content -->
+        <div class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs breadcrumbs-fixed">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a href="#">首页</a>
+                    </li>
+                    <block name="breadcrumb">
+                    </block>
+                </ul>
+
+            </div>
+            <!-- /Page Breadcrumb -->
+
+            <!-- Page Body -->
+            <div class="page-body" style="margin-top: 40px;">
+
+                <block name="page-body">
+
+                </block>
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Content -->
+    </div>
+    <!-- /Page Container -->
+    <!-- Main Container -->
+
+</div>
+<div id="myModal" style="display: none">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group">
+                <input type="password" class="form-control"
+                       id="oldPwd" placeholder="原密码" required=""/>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="newPwd" placeholder="新密码"/>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="rePwd" placeholder="确认密码"/>
+            </div>
+            <div class="col-md-8" style="padding-left: 0">
+                <div class="alert alert-warning" style="display: none;">
+                    <i class="fa-fw fa fa-warning"></i>
+                    <span class="msg"></span>
+                </div>
+            </div>
+            <div class="col-md-4" style="text-align: right;padding-right: 0;">
+                <div class="form-group" style="height:50px;">
+                    <button data-bb-handler="保存" type="button" class="btn btn-primary" onclick="btnUserSave()">保存
+                    </button>
+                    <button data-bb-handler="取消" type="button" class="btn btn btn-warning" onclick="btnUserQuit()">关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<!--Beyond Scripts-->
+<script src="__PUBLIC__/assets/js/beyond.min.js"></script>
+<script src="__PUBLIC__/assets/js/bootbox/bootbox.js"></script>
+<script src="__PUBLIC__/assets/js/validation/bootstrapValidator.js"></script>
+<script>
+    $(function () {
+        $("#bootbox-options").on('click', function () {
+            showDialog();
+        });
+    });
+
+    function bootMessage(type, message) {
+        $("#mdl-" + type).remove();
+        var html = $('<div id="mdl-' + type + '" class="modal modal-message modal-' + type + ' animated fadeInDown" style="display: block;opacity:1">' +
+        '<div class="modal-dialog">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<i class="glyphicon glyphicon-check"></i>' +
+        '</div>' +
+        '<div class="modal-title"></div>' +
+        '<div class="modal-body">' + message + '</div>' +
+        '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-' + type + '" data-dismiss="modal">确定</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>');
+
+        html.find(".btn-" + type).on("click", function () {
+            $("#mdl-" + type).addClass("fadeOutUp").on("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function () {
+                $(this).remove();
+            });
+        })
+        $("body").append(html);
+        setTimeout(function () {
+            $("#mdl-" + type + " .btn-" + type).click();
+        }, 2000)
+    }
+    function btnQuit() {
+        $(".bootbox-close-button").click();
+        $(".msg").html("");
+        $(".alert").fadeOut();
+    }
+    function btnUserSave() {
+        var oldPwd = $.trim($(".bootbox #oldPwd").val());
+        var newPwd = $.trim($(".bootbox #newPwd").val());
+        var rePwd = $.trim($(".bootbox #rePwd").val());
+        if (oldPwd == "" || newPwd == "" || rePwd == "") {
+            $(".msg").html("原密码、新密码、确认密码都不能为空");
+            $(".alert").fadeIn();
+            setTimeout(function () {
+                $(".alert").fadeOut();
+            }, 3000)
+            return;
+        }
+        if (newPwd != rePwd) {
+            $(".msg").html("新密码和确认密码输入不一致");
+            $(".alert").fadeIn();
+            setTimeout(function () {
+                $(".alert").fadeOut();
+            }, 3000)
+            return;
+        }
+        $.post("{:U('login/modify')}", {oldPwd: oldPwd, newPwd: newPwd}, function (d, s) {
+            if (d.code == 0) {
+                $(".bootbox #oldPwd").val("");
+                $(".bootbox #newPwd").val("");
+                $(".bootbox #rePwd").val("");
+            }
+            $(".msg").html(d.msg);
+            $(".alert").fadeIn();
+            setTimeout(function () {
+                $(".alert").fadeOut();
+            }, 3000)
+        }, "json");
+
+    }
+    function showDialog() {
+        bootbox.dialog({
+            message: $("#myModal").html(),
+            title: "修改密码",
+            className: ""
+        });
+    }
+</script>
+<block name="script"></block>
+
+</body>
+</html>

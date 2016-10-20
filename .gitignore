@@ -1,0 +1,6 @@
+Application/Runtime/*
+.git/*
+.idea/*
+Logs/*
+.sass
+.map

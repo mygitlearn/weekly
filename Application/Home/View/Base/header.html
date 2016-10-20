@@ -1,0 +1,56 @@
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="navbar-container">
+            <!-- Navbar Barnd -->
+            <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand">
+                    <small>
+                        <img src="__PUBLIC__/assets/img/logo.png" alt=""/>
+                    </small>
+                </a>
+            </div>
+            <!-- /Navbar Barnd -->
+
+            <!-- Sidebar Collapse -->
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="collapse-icon fa fa-bars"></i>
+            </div>
+            <!-- /Sidebar Collapse -->
+            <!-- Account Area and Settings --->
+            <div class="navbar-header pull-right">
+                <div class="navbar-account">
+                    <ul class="account-area">
+                        <li style="right: -40px;">
+                            <a class="login-area dropdown-toggle" data-toggle="dropdown">
+                                <div class="avatar" style="border-left:0px;" title="点击修改密码或退出系统">
+                                    <img src="__PUBLIC__/assets/img/avatars/boy.png">
+                                </div>
+                                <section style="width: 105px;">
+                                    <h2><span class="profile"><span>{$name}</span></span></h2>
+                                </section>
+                            </a>
+                            <!--Login Area Dropdown-->
+                            <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+                                <li class="username"><a></a></li>
+                                <li class="email"><a>欢迎使用神州数码周报系统</a></li>
+                                <li>
+                                    <div class="avatar-area">
+                                        <img src="__PUBLIC__/assets/img/avatars/boy.png" class="avatar">
+                                        <span class="caption">{$name}</span>
+                                    </div>
+                                </li>
+                                <li class="dropdown-footer edit">
+                                    <a href="#" class="pull-left" id="bootbox-options">修改密码</a>
+                                    <a href="{:U('login/logout',null,false)}" class="pull-right">退出系统</a>
+                                </li>
+                            </ul>
+                            <!--/Login Area Dropdown-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /Account Area and Settings -->
+        </div>
+    </div>
+</div>
+
